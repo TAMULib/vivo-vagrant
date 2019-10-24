@@ -73,7 +73,7 @@ installVIVO () {
     git clone https://github.com/TAMULib/Vitro.git -b rdf-delta-messaging
   fi
   if [ ! -d "/home/vagrant/src/VIVO" ] ; then
-    git clone https://github.com/TAMULib/VIVO.git -b rdf-delta-messaging
+    git clone https://github.com/vivo-project/VIVO.git -b rel-1.11.0-RC
   fi
 
   cd VIVO
