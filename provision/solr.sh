@@ -10,29 +10,29 @@ set -e
 # Print shell commands
 set -o verbose
 
+export DEBIAN_FRONTEND=noninteractive
+
 # Install Solr 8.2.0
 installSolr () {
+  if [ ! -d "/opt/solr" ] ; then
+    curl -O http://archive.apache.org/dist/lucene/solr/8.2.0/solr-8.2.0.tgz
 
-  echo '*           soft    nofile           65000' >> /etc/security/limits.conf
-  echo '*           hard    nproc           65000' >> /etc/security/limits.conf
+    tar xzvf solr-8.2.0.tgz
 
-  curl -O http://archive.apache.org/dist/lucene/solr/8.2.0/solr-8.2.0.tgz
+    solr-8.2.0/bin/install_solr_service.sh ./solr-8.2.0.tgz
 
-  mkdir /opt/solr || true
-  tar xzvf solr-8.2.0.tgz -C /opt/solr --strip-components=1
+    git clone https://github.com/vivo-community/vivo-solr.git vivo-solr
+    cp -R vivo-solr/vivocore /var/solr/data
 
-  mkdir -p /opt/solr/server/solr || true
-  
-  cd /home/vagrant
-  git clone https://github.com/vivo-community/vivo-solr.git vivo-solr || true
-  cp -R vivo-solr/vivocore /opt/solr/server/solr
+    rm /var/solr/data/vivocore/conf/schema.xml
 
-  /opt/solr/bin/solr start -force
-  /opt/solr/bin/solr stop
+    chown -R solr:solr /var/solr
 
-  rm /opt/solr/server/solr/vivocore/conf/schema.xml || true 
-  
-  /opt/solr/bin/solr start -force
+    systemctl restart solr
+    systemctl enable solr
+  else
+    systemctl restart solr
+  fi
 }
 
 installSolr

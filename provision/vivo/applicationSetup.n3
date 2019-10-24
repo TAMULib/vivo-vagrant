@@ -26,7 +26,10 @@
     :hasSearchIndexer             :basicSearchIndexer ;
     :hasImageProcessor            :iioImageProcessor ;
     :hasFileStorage               :ptiFileStorage ;
-    :hasContentTripleSource       :sdbContentTripleSource ;
+#    :hasContentTripleSource       :sdbContentTripleSource ;
+    :hasRDFDeltaDatasetFactory    :rdfDeltaDatasetFactory ;
+#    :hasJMSMessagingClient        :jmsMessagingClient ;
+    :hasContentTripleSource       :tdbRDFDeltaMessagingContentTripleSource ;
     :hasConfigurationTripleSource :tdbConfigurationTripleSource ;
     :hasTBoxReasonerModule        :jfactTBoxReasonerModule .
 
@@ -89,15 +92,23 @@
 #    endpoint, or a Virtuoso endpoint, with parameters as shown.
 #
 
-:sdbContentTripleSource
-    a   vitroWebapp:triplesource.impl.sdb.ContentTripleSourceSDB ,
-        vitroWebapp:modules.tripleSource.ContentTripleSource .
+#:sdbContentTripleSource
+#    a   vitroWebapp:triplesource.impl.sdb.ContentTripleSourceSDB ,
+#        vitroWebapp:modules.tripleSource.ContentTripleSource .
 
 #:tdbContentTripleSource
 #    a   vitroWebapp:triplesource.impl.tdb.ContentTripleSourceTDB ,
 #        vitroWebapp:modules.tripleSource.ContentTripleSource ;
 #    # May be an absolute path, or relative to the Vitro home directory.
 #    :hasTdbDirectory "tdbContentModels" .
+
+:tdbRDFDeltaMessagingContentTripleSource
+    a   vitroWebapp:triplesource.impl.tdb.ContentTripleSourceTDB ,
+        vitroWebapp:modules.tripleSource.ContentTripleSource ;
+    # May be an absolute path, or relative to the Vitro home directory.
+    :hasTdbDirectory "tdbContentModels" ;
+    :hasRDFDeltaDatasource "vivo-delta" ;
+    :shouldEmitPatches "false" .
 
 #:sparqlContentTripleSource
 #    a   vitroWebapp:triplesource.impl.sparql.ContentTripleSourceSPARQL ,
@@ -138,3 +149,20 @@
 :jfactTBoxReasonerModule
     a   vitroWebapp:tboxreasoner.impl.jfact.JFactTBoxReasonerModule ,
         vitroWebapp:modules.tboxreasoner.TBoxReasonerModule .
+
+:rdfDeltaDatasetFactory
+    a   vitroWebapp:modules.rdfDelta.RDFDeltaDatasetFactory ;
+    # becomes an absolute path
+    :hasDeltaServerURL "http://localhost:1066" ;
+    :hasDeltaClientZone "/opt/vivo/Zone" .
+
+#:jmsMessagingClient
+#    a   vitroWebapp:modules.messaging.JMSMessagingClient ;
+#    # JNDI property java.naming.factory.initial
+#    :hasFactoryInitial "org.apache.activemq.artemis.jndi.ActiveMQInitialContextFactory" ;
+#    # JNDI property java.naming.provider.url
+#    :hasProviderURL "tcp://localhost:61616?type=TOPIC_CF" ;
+#    :hasConnectionFactory "TopicConnectionFactory" ;
+#    :hasBrokerDestination "topic/rdf-delta-patch" ;
+#    :hasBrokerUsername "artemis" ;
+#    :hasBrokerPassword "artemis" .

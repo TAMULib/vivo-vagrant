@@ -13,7 +13,7 @@ Vagrant.configure("2") do |config|
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://vagrantcloud.com/search.
-  config.vm.box = "hashicorp-vagrant/ubuntu-16.04"
+  config.vm.box = "bento/ubuntu-18.04"
 
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
@@ -25,9 +25,12 @@ Vagrant.configure("2") do |config|
   # accessing "localhost:8080" will access port 80 on the guest machine.
   # NOTE: This will enable public access to the opened port
   config.vm.network "forwarded_port", guest: 80, host: 8081
-  config.vm.network "forwarded_port", guest: 8080, host: 8080
+  config.vm.network "forwarded_port", guest: 1066, host: 1066
   config.vm.network "forwarded_port", guest: 8000, host: 8000
+  config.vm.network "forwarded_port", guest: 8080, host: 8080
+  config.vm.network "forwarded_port", guest: 8161, host: 8161
   config.vm.network "forwarded_port", guest: 8983, host: 8983
+  config.vm.network "forwarded_port", guest: 61616, host: 61616
 
   # Create a forwarded port mapping which allows access to a specific port
   # within the machine from a port on the host machine and only allow access
@@ -48,6 +51,7 @@ Vagrant.configure("2") do |config|
   # the path on the guest to mount the folder. And the optional third
   # argument is a set of non-required options.
   config.vm.synced_folder "provision", "/home/vagrant/provision"
+  config.vm.synced_folder "vivo-data", "/home/vagrant/vivo-data"
   config.vm.synced_folder "src", "/home/vagrant/src"
   config.vm.synced_folder "work", "/work"
 
@@ -59,22 +63,45 @@ Vagrant.configure("2") do |config|
     # Display the VirtualBox GUI when booting the machine
     vb.gui = false
     # Customize number of CPUs on the VM:
-    vb.cpus = 1
+    vb.cpus = 2
     # Customize the amount of memory on the VM:
-    vb.memory = "4096"
+    vb.memory = "8192"
   end
 
   config.vm.provider "vmware_fusion" do |v,override|
     v.gui = false
-    v.vmx["numvcpus"] = "1"
-    v.vmx["memsize"] = "4096"
+    v.vmx["numvcpus"] = "2"
+    v.vmx["memsize"] = "8192"
   end
 
-  # Setup box
+  config.vm.provider "hyperv" do |hv, override|
+    hv.cpus = 2
+    hv.memory = 8192
+    override.vm.network :public_network, bridge: "Default Switch"
+    override.vm.synced_folder ".", "/vagrant", type: "smb", mount_options: ["vers=3.02"], smb_host: ENV["HOST_IP"], smb_username: ENV["HOST_USERNAME"], smb_password: ENV["HOST_PASSWORD"]
+    override.vm.synced_folder "provision", "/home/vagrant/provision", type: "smb", mount_options: ["vers=3.02"], smb_host: ENV["HOST_IP"], smb_username: ENV["HOST_USERNAME"], smb_password: ENV["HOST_PASSWORD"]
+    override.vm.synced_folder "vivo-data", "/home/vagrant/vivo-data", type: "smb", mount_options: ["vers=3.02"], smb_host: ENV["HOST_IP"], smb_username: ENV["HOST_USERNAME"], smb_password: ENV["HOST_PASSWORD"]
+    override.vm.synced_folder "src", "/home/vagrant/src", type: "smb", mount_options: ["vers=3.02"], smb_host: ENV["HOST_IP"], smb_username: ENV["HOST_USERNAME"], smb_password: ENV["HOST_PASSWORD"]
+    override.vm.synced_folder "work", "/work", type: "smb", mount_options: ["vers=3.02"], smb_host: ENV["HOST_IP"], smb_username: ENV["HOST_USERNAME"], smb_password: ENV["HOST_PASSWORD"]
+  end
+
+  # Bootstrap
   config.vm.provision "bootstrap", type: "shell", path: "provision/bootstrap.sh", privileged: true
+
+  # Install Tomcat
+  config.vm.provision "tomcat", type: "shell", path: "provision/tomcat.sh", privileged: true
+
+  # Install MySQL
+  config.vm.provision "mysql", type: "shell", path: "provision/mysql.sh", privileged: true
 
   # Install Solr
   config.vm.provision "solr", type: "shell", path: "provision/solr.sh", privileged: true
+
+  # Install Artemis
+  config.vm.provision "artemis", type: "shell", path: "provision/artemis.sh", privileged: true
+
+  # Install RDF Delta
+  config.vm.provision "rdf_delta", type: "shell", path: "provision/rdf_delta.sh", privileged: true
 
   # Install VIVO
   config.vm.provision "vivo", type: "shell", path: "provision/install.sh", privileged: true

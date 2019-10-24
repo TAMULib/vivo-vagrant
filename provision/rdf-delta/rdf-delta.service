@@ -1,0 +1,18 @@
+[Unit]
+Description=RDF Delta Server
+After=network.target
+
+[Service]
+Type=forking
+
+User=tomcat
+Group=tomcat
+
+Environment="JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64"
+Environment="JAVA_OPTS=-Djava.security.egd=file:///dev/urandom -Djava.awt.headless=true"
+
+ExecStart=/opt/rdf-delta/delta-start.sh
+ExecStop=/opt/rdf-delta/delta-stop.sh
+
+[Install]
+WantedBy=multi-user.target
