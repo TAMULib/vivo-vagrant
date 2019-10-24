@@ -26,9 +26,8 @@
     :hasSearchIndexer             :basicSearchIndexer ;
     :hasImageProcessor            :iioImageProcessor ;
     :hasFileStorage               :ptiFileStorage ;
-#    :hasContentTripleSource       :sdbContentTripleSource ;
     :hasRDFDeltaDatasetFactory    :rdfDeltaDatasetFactory ;
-#    :hasJMSMessagingClient        :jmsMessagingClient ;
+    :hasJMSMessagingClient        :jmsMessagingClient ;
     :hasContentTripleSource       :tdbRDFDeltaMessagingContentTripleSource ;
     :hasConfigurationTripleSource :tdbConfigurationTripleSource ;
     :hasTBoxReasonerModule        :jfactTBoxReasonerModule .
@@ -108,7 +107,7 @@
     # May be an absolute path, or relative to the Vitro home directory.
     :hasTdbDirectory "tdbContentModels" ;
     :hasRDFDeltaDatasource "vivo-delta" ;
-    :shouldEmitPatches "false" .
+    :shouldEmitPatches "true" .
 
 #:sparqlContentTripleSource
 #    a   vitroWebapp:triplesource.impl.sparql.ContentTripleSourceSPARQL ,
@@ -156,13 +155,13 @@
     :hasDeltaServerURL "http://localhost:1066" ;
     :hasDeltaClientZone "/opt/vivo/Zone" .
 
-#:jmsMessagingClient
-#    a   vitroWebapp:modules.messaging.JMSMessagingClient ;
-#    # JNDI property java.naming.factory.initial
-#    :hasFactoryInitial "org.apache.activemq.artemis.jndi.ActiveMQInitialContextFactory" ;
-#    # JNDI property java.naming.provider.url
-#    :hasProviderURL "tcp://localhost:61616?type=TOPIC_CF" ;
-#    :hasConnectionFactory "TopicConnectionFactory" ;
-#    :hasBrokerDestination "topic/rdf-delta-patch" ;
-#    :hasBrokerUsername "artemis" ;
-#    :hasBrokerPassword "artemis" .
+:jmsMessagingClient
+    a   vitroWebapp:modules.messaging.JMSMessagingClient ;
+    # JNDI property java.naming.factory.initial
+    :hasFactoryInitial "org.apache.activemq.artemis.jndi.ActiveMQInitialContextFactory" ;
+    # JNDI property java.naming.provider.url
+    :hasProviderURL "tcp://localhost:61616?type=TOPIC_CF" ;
+    :hasConnectionFactory "TopicConnectionFactory" ;
+    :hasBrokerDestination "topic/rdf-delta-patch" ;
+    :hasBrokerUsername "artemis" ;
+    :hasBrokerPassword "artemis" .
