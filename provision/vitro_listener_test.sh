@@ -25,12 +25,7 @@ installVitroListenerTest () {
     mvn clean package
     cd ..
 
-    mv /home/vagrant/src/vitro-listener-test/target /opt/vitro-listener-test
-
-    cp /home/vagrant/provision/vitro-listener-test/vlt-start.sh /opt/vitro-listener-test/vlt-start.sh
-    cp /home/vagrant/provision/vitro-listener-test/vlt-stop.sh /opt/vitro-listener-test/vlt-stop.sh
-
-    chgrp -R tomcat /opt/vitro-listener-test
+    chgrp -R tomcat /home/vagrant/src/vitro-listener-test
 
     cp /home/vagrant/provision/vitro-listener-test/vitro-listener-test.service /etc/systemd/system/vitro-listener-test.service
 

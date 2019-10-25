@@ -1,3 +1,5 @@
 #!/bin/sh
 
-nohup java -jar /opt/vitro-listener-test/test-0.0.1-SNAPSHOT.jar &
+cd /home/vagrant/src/vitro-listener-test
+
+nohup mvn clean spring-boot:run &
