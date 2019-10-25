@@ -14,7 +14,8 @@ export DEBIAN_FRONTEND=noninteractive
 
 # Install Vitro Listener Test
 installVitroListenerTest () {
-  if [ ! -d "/opt/vitro-listener-test" ] ; then
+  if [ ! -d "/home/vagrant/src/vitro-listener-test" ] ; then
+    cd /home/vagrant/src
 
     git clone https://github.com/vivo-community/vitro-listener-test.git -b master
 
