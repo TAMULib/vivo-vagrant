@@ -28,6 +28,8 @@ installVitroListenerTest () {
 
     chgrp -R tomcat /home/vagrant/src/vitro-listener-test
 
+    chown -R tomcat:tomcat /home/vagrant/provision/vitro-listener-test
+
     cp /home/vagrant/provision/vitro-listener-test/vitro-listener-test.service /etc/systemd/system/vitro-listener-test.service
 
     chmod 0644 /etc/systemd/system/vitro-listener-test.service
