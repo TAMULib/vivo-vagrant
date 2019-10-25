@@ -1,5 +1,5 @@
 [Unit]
-Description=RDF Delta Server
+Description=Vitro Listener Test
 After=network.target
 
 [Service]
@@ -11,8 +11,8 @@ Group=tomcat
 Environment="JAVA_HOME=/usr/lib/jvm/default-java"
 Environment="JAVA_OPTS=-Djava.security.egd=file:///dev/urandom -Djava.awt.headless=true"
 
-ExecStart=/opt/rdf-delta/delta-start.sh
-ExecStop=/opt/rdf-delta/delta-stop.sh
+ExecStart=/opt/vitro-listener-test/vlt-start.sh
+ExecStop=/opt/vitro-listener-test/vlt-stop.sh
 
 [Install]
 WantedBy=multi-user.target

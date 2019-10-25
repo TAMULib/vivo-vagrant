@@ -15,9 +15,6 @@ export DEBIAN_FRONTEND=noninteractive
 # Update Ubuntu packages. Comment out during development
 apt-get update -y
 
-# Install OpenJDK 11
-apt-get install -y openjdk-11-jdk
-
 # Install Maven
 apt-get install -y maven
 

@@ -30,6 +30,7 @@ Vagrant.configure("2") do |config|
   config.vm.network "forwarded_port", guest: 8080, host: 8080
   config.vm.network "forwarded_port", guest: 8161, host: 8161
   config.vm.network "forwarded_port", guest: 8983, host: 8983
+  config.vm.network "forwarded_port", guest: 9000, host: 9000
   config.vm.network "forwarded_port", guest: 61616, host: 61616
 
   # Create a forwarded port mapping which allows access to a specific port
@@ -105,5 +106,8 @@ Vagrant.configure("2") do |config|
 
   # Install VIVO
   config.vm.provision "vivo", type: "shell", path: "provision/install.sh", privileged: true
+
+  # Install Vitro Listener Test
+  config.vm.provision "vitro_listener_test", type: "shell", path: "provision/vitro_listener_test.sh", privileged: true
 
 end
