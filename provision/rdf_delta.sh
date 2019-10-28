@@ -32,10 +32,10 @@ installRDFDelta () {
     cp /home/vagrant/provision/rdf-delta/delta-start.sh /opt/rdf-delta/delta-start.sh
     cp /home/vagrant/provision/rdf-delta/delta-stop.sh /opt/rdf-delta/delta-stop.sh
 
-    chgrp -R tomcat /opt/rdf-delta
+    chmod 0755 /opt/rdf-delta/delta-start.sh /opt/rdf-delta/delta-stop.sh
+
+    chown -R tomcat:tomcat /opt/vivo/DeltaServer /opt/vivo/Zone /opt/rdf-delta
     chmod -R g+r /opt/vivo/DeltaServer /opt/vivo/Zone
-    chmod g+x /opt/vivo/DeltaServer /opt/vivo/Zone /opt/rdf-delta
-    chown -R tomcat /opt/vivo/DeltaServer /opt/vivo/Zone /opt/rdf-delta
 
     cp /home/vagrant/provision/rdf-delta/rdf-delta.service /etc/systemd/system/rdf-delta.service
 
