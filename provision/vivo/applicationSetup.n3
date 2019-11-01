@@ -106,7 +106,7 @@
         vitroWebapp:modules.tripleSource.ContentTripleSource ;
     # May be an absolute path, or relative to the Vitro home directory.
     :hasTdbDirectory "tdbContentModels" ;
-    :hasRDFDeltaDatasource "vivo-delta" ;
+    :hasRDFDeltaDatasource "vivo-patches" ;
     :shouldEmitPatches "true" .
 
 #:sparqlContentTripleSource
@@ -163,5 +163,6 @@
     :hasProviderURL "tcp://localhost:61616?type=TOPIC_CF" ;
     :hasConnectionFactory "TopicConnectionFactory" ;
     :hasBrokerDestination "topic/rdf-delta-patch" ;
+    :hasBrokerType "topic" ;
     :hasBrokerUsername "artemis" ;
     :hasBrokerPassword "artemis" .
